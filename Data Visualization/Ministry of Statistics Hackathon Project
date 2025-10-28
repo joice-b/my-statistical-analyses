@@ -1,0 +1,40 @@
+#data visualization project done in R based on the time series analysis of macroeconomic variables(CPI), data obtained from the Ministry of Statistics, Government of India Website
+library(readxl)
+library(plotly)
+df <- read_xlsx("C:/Users/DELL/Desktop/Joice/CPI_data.xlsx")
+cpi <- as.numeric(df$CPI[13:36])
+cpi_lagged <- as.numeric(df$CPI[12:35])
+time_index <- seq_along(cpi)
+cpi_labels <- c("Jan'15","Feb'15","Mar'15","Apr'15","May'15","Jun'15","Jul'15","Aug'15","Sep'15","Oct'15","Nov'15","Dec'15",
+                "Jan'16","Feb'16","Mar'16","Apr'16","May'16","Jun'16","Jul'16","Aug'16","Sep'16","Oct'16","Nov'16","Dec'16")
+cpi_lagged_labels <- c("Dec'14","Jan'15","Feb'15","Mar'15","Apr'15","May'15","Jun'15","Jul'15","Aug'15","Sep'15","Oct'15","Nov'15",
+                       "Dec'15","Jan'16","Feb'16","Mar'16","Apr'16","May'16","Jun'16","Jul'16","Aug'16","Sep'16","Oct'16","Nov'16")
+fig <- plot_ly() %>%
+  add_trace(x = time_index, y = cpi, type = 'scatter', mode = 'lines+markers',
+            line = list(color = 'blue', width = 2),
+            marker = list(size = 6),
+            name = 'Present Value',
+            text = paste("Month:", cpi_labels, "<br>Inflation:", round(cpi, 2)),
+            hoverinfo = 'text') %>%
+  
+  add_trace(x = time_index, y = cpi_lagged, type = 'scatter', mode = 'lines+markers',
+            line = list(color = 'red', width = 2, dash = 'dash'),
+            marker = list(size = 6),
+            name = 'Lagged Value',
+            text = paste("Month:", cpi_lagged_labels, "<br>Lagged Inflation:", round(cpi_lagged, 2)),
+            hoverinfo = 'text') %>%
+
+  add_segments(x = time_index, xend = time_index, y = 0, yend = cpi, 
+               line = list(color = "grey", width = 2),
+               showlegend = FALSE) %>%
+
+  add_segments(x = time_index, xend = time_index, y = 0, yend = cpi_lagged, 
+               line = list(color = "lightcoral", width = 1.5, dash = "dot"),
+               showlegend = FALSE) %>%
+
+  layout(title = "Inflation and Its Lagged Values",
+         xaxis = list(title = "Time (Months)", tickmode = 'array', tickvals = time_index, ticktext = cpi_labels),
+         yaxis = list(title = "Inflation (%)"),
+         legend = list(x = 0.1, y = 1))
+
+fig
