@@ -1,0 +1,25 @@
+#a)
+data2=stackloss
+data2
+help("stackloss")
+#b)
+plot(data2)
+attach(data2)
+model2=lm(stack.loss~Air.Flow+Water.Temp+Acid.Conc.)
+model2
+#c
+y=-39.9196744 + 0.7156402(X1) + 1.2952861(X2) -0.1521225(X3);y
+#d
+model2$coefficients[1]
+model2$coefficients[2]
+model2$coefficients[3]
+model2$coefficients[4]
+#e)
+summary(model2)
+#f)
+X1=70
+X2=26
+X3=92
+y=-39.9196744 + 0.7156402*(X1) + 1.2952861*(X2) -0.1521225*(X3);y
+#g)
+model2$residuals
