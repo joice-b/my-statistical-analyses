@@ -1,0 +1,20 @@
+close_price_df = pd.read_csv('/voc/startercode/stock_prices.csv')
+close_price_df
+daily_returns_df = close_price_df.iloc[:, 1:].pct_change() * 100
+daily_returns_df.replace(np.nan, 0, inplace = True)
+daily_returns_df
+daily_returns_df.insert(0, "Date", close_price_df['Date'])
+daily_returns_df
+plot_financial_data(close_price_df, 'Adjusted Closing Prices [$]')
+plot_financial_data(daily_returns_df, 'Percentage Daily Returns [%]')
+fig = px.histogram(daily_returns_df.drop(columns = ['Date']))
+fig.update_layout({'plot_bgcolor': "white"})
+plt.figure(figsize = (10, 8))
+sns.heatmap(daily_returns_df.drop(columns = ['Date']).corr(), annot = True);
+sns.pairplot(daily_returns_df);
+def price_scaling(raw_prices_df):
+    scaled_prices_df = raw_prices_df.copy()
+    for i in raw_prices_df.columns[1:]:
+          scaled_prices_df[i] = raw_prices_df[i]/raw_prices_df[i][0]
+    return scaled_prices_df
+price_scaling(close_price_df)
