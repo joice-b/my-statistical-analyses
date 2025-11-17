@@ -1,0 +1,13 @@
+import warnings
+warnings.simplefilter('ignore')
+import pandas as pd
+import numpy as np
+import datetime as dt
+stock_df = pd.read_csv('/voc/startercode/Amazon.csv')
+stock_df.head(15)
+stock_df.isnull().sum()
+stock_df.info()
+import pandas as pd 
+JPM_df = pd.read_csv("/voc/startercode/JPM.csv")
+JPM_df
+JPM_df.info()
