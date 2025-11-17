@@ -1,0 +1,9 @@
+stock_df['Daily Return'] = stock_df['Adj Close'].pct_change(1) * 100
+stock_df
+stock_df['Daily Return'].replace(np.nan, 0, inplace = True)
+stock_df
+stock_df.describe().round(2)
+JPM_df['Daily Return'] = JPM_df['Adj Close'].pct_change(1)*100
+JPM_df['Daily Return'].replace(np.nan, 0, inplace = True)
+JPM_df
+JPM_df['Daily Return'].max()
