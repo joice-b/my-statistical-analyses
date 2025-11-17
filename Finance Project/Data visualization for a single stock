@@ -1,0 +1,18 @@
+import matplotlib.pyplot as plt
+!pip install seaborn
+import seaborn as sns
+import plotly.express as px
+fig = px.line(title = 'Amazon.com, Inc. (AMZN) Adjusted Closing Price [$]')
+fig.add_scatter(x = stock_df['Date'], y = stock_df['Adj Close'], name = 'Adj Close')
+stock_df
+def plot_financial_data(df, title):
+    fig = px.line(title = title)    
+    for i in df.columns[1:]:
+        fig.add_scatter(x = df['Date'], y = df[i], name = i)
+        fig.update_traces(line_width = 5)
+        fig.update_layout({'plot_bgcolor': "white"})
+    fig.show()
+plot_financial_data(stock_df.drop(['Volume', 'Daily Return'], axis = 1), 'Amazon.com, Inc. (AMZN) Stock Price [$]')
+plot_financial_data(stock_df.iloc[:,[0,5]], 'Amazon.com, Inc. (AMZN) Trading Volume')
+plot_financial_data(stock_df.iloc[:,[0,7]], 'Amazon.com, Inc. (AMZN) Percentage Daily Return [%]')
+
