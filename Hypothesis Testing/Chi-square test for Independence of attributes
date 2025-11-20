@@ -1,0 +1,10 @@
+x=c(0:6)
+f=c(38,45,15,5,3,2,2)
+sum=sum(f)
+data=rep(x,f)
+xb=mean(data)
+prob=dpois(x,xb);prob
+exp_freq=xb*prob;exp_freq
+chil=chisq.test(f,p=prob,rescale.p=TRUE);chil
+chil$statistic
+pval=pchisq(chil$statistic,df=6,lower.tail=FALSE);pval
