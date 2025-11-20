@@ -1,0 +1,10 @@
+#MP test
+x=0:30
+p=dbinom(x,30,0.53);p
+q=pbinom(x,30,0.53);q
+data.frame(x,p,q)
+#power of test
+x=0:30
+p=dbinom(x,30,0.16);p
+q=pbinom(x,30,0.16);q
+data.frame(x,p,q)
