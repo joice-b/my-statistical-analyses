@@ -1,0 +1,23 @@
+sharpe_ratio_runs
+sharpe_ratio_runs.argmax()
+sharpe_ratio_runs.max()
+weights_runs
+weights_runs[sharpe_ratio_runs.argmax(), :]
+optimal_portfolio_return, optimal_volatility, optimal_sharpe_ratio, highest_final_value, optimal_return_on_investment = simulation_engine(weights_runs[sharpe_ratio_runs.argmax(), :], initial_investment)
+print('Best Portfolio Metrics Based on {} Monte Carlo Simulation Runs:'.format(sim_runs))
+print('  - Portfolio Expected Annual Return = {:.02f}%'.format(optimal_portfolio_return * 100))
+print('  - Portfolio Standard Deviation (Volatility) = {:.02f}%'.format(optimal_volatility * 100))
+print('  - Sharpe Ratio = {:.02f}'.format(optimal_sharpe_ratio))
+print('  - Final Value = ${:.02f}'.format(highest_final_value))
+print('  - Return on Investment = {:.02f}%'.format(optimal_return_on_investment))
+sim_out_df = pd.DataFrame({'Volatility': volatility_runs.tolist(), 'Portfolio_Return': expected_portfolio_returns_runs.tolist(), 'Sharpe_Ratio': sharpe_ratio_runs.tolist() })
+sim_out_df
+import plotly.graph_objects as go
+fig = px.scatter(sim_out_df, x = 'Volatility', y = 'Portfolio_Return', color = 'Sharpe_Ratio', size = 'Sharpe_Ratio', hover_data = ['Sharpe_Ratio'] )
+fig.update_layout({'plot_bgcolor': "white"})
+fig.show()
+fig = px.scatter(sim_out_df, x = 'Volatility', y = 'Portfolio_Return', color = 'Sharpe_Ratio', size = 'Sharpe_Ratio', hover_data = ['Sharpe_Ratio'] )
+fig.add_trace(go.Scatter(x = [optimal_volatility], y = [optimal_portfolio_return], mode = 'markers', name = 'Optimal Point', marker = dict(size=[40], color = 'red')))
+fig.update_layout(coloraxis_colorbar = dict(y = 0.7, dtick = 5))
+fig.update_layout({'plot_bgcolor': "white"})
+fig.show()
