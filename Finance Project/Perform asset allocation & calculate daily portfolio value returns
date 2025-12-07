@@ -1,0 +1,36 @@
+weights = [0.032266, 0.094461, 0.117917, 0.132624, 0.145942, 0.128299, 0.10009, 0.007403, 0.088581, 0.152417]
+weights
+close_price_df
+portfolio_df = close_price_df.copy()
+scaled_df = price_scaling(portfolio_df)
+scaled_df
+initial_investment = 1000000
+for i, stock in enumerate(scaled_df.columns[1:]):
+    portfolio_df[stock] = weights[i] * scaled_df[stock]  * initial_investment
+portfolio_df.round(1)
+def asset_allocation(df, weights, initial_investment):
+    portfolio_df = df.copy()
+
+    # Scale stock prices using the "price_scaling" function that we defined earlier (Make them all start at 1)
+    scaled_df = price_scaling(df)
+    for i, stock in enumerate(scaled_df.columns[1:]):
+        portfolio_df[stock] = scaled_df[stock] * weights[i] * initial_investment
+
+    # Sum up all values and place the result in a new column titled "portfolio value [$]" 
+    # Note that we excluded the date column from this calculation
+    portfolio_df['Portfolio Value [$]'] = portfolio_df[portfolio_df != 'Date'].sum(axis = 1, numeric_only = True)
+            
+    # Calculate the portfolio percentage daily return and replace NaNs with zeros
+    portfolio_df['Portfolio Daily Return [%]'] = portfolio_df['Portfolio Value [$]'].pct_change(1) * 100 
+    portfolio_df.replace(np.nan, 0, inplace = True)
+    
+    return portfolio_df
+n = len(close_price_df.columns)-1
+print('Number of stocks under consideration = {}'.format(n))
+weights = generate_portfolio_weights(n).round(6)
+print('Portfolio weights = {}'.format(weights))
+portfolio_df = asset_allocation(close_price_df, weights, 1000000)
+portfolio_df.round(2)
+plot_financial_data(portfolio_df[['Date', 'Portfolio Daily Return [%]']], 'Portfolio Percentage Daily Return [%]')
+plot_financial_data(portfolio_df.drop(['Portfolio Value [$]', 'Portfolio Daily Return [%]'], axis = 1), 'Portfolio positions [$]')
+plot_financial_data(portfolio_df[['Date', 'Portfolio Value [$]']], 'Total Portfolio Value [$]')
