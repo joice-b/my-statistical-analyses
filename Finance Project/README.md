@@ -5,6 +5,9 @@ This project performs Monte Carlo simulations on historical asset prices to esti
 Key Features:
 
 -Data Analysis: Cleaning and scaling historical stock prices.
+
 -Visualization: Interactive candlestick charts and correlation heatmaps using Plotly and Seaborn.
+
 -Simulation: Running 10,000 Monte Carlo iterations to simulate portfolio performance.
+
 -Optimization: identifying the optimal asset weights to maximize risk-adjusted returns (Sharpe Ratio). Tech Stack: Python, Pandas, NumPy, Plotly, Cufflinks.
